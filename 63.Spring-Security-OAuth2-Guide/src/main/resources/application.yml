@@ -3,4 +3,10 @@ security:
     client:
       client-id: test
       client-secret: test1234
-      registered-redirect-uri: http://mrbird.cc
+      registered-redirect-uri: http://www.baidu.com
+      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
+      access-token-uri: http://127.0.0.1:8080/oauth/token
+    resource:
+      jwt:
+        key-uri: http://127.0.0.1:8080/oauth/token_key
+
