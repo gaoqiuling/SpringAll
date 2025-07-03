@@ -4,7 +4,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;;
+import java.security.Principal;
 
 /**
  * @author MrBird
@@ -14,6 +14,11 @@ public class UserController {
 
     @GetMapping("user")
     public Principal user(Principal principal) {
+        return principal;
+    }
+
+    @GetMapping("user/u")
+    public Principal user2(Principal principal) {
         return principal;
     }
 
