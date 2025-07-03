@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // CSRF禁用
                 .csrf().disable()
                 .formLogin()
-                .loginPage("/login")  // 自定义登录页面
+                //.loginPage("/login")  // 自定义登录页面
                // .loginProcessingUrl("/login")  // 登录处理URL
                 .and()
                 .authorizeRequests()

@@ -2,3 +2,25 @@ server:
   port: 8080
   servlet:
     context-path: /server
+
+spring:
+  redis:
+    host: 39.107.45.229
+    port: 6379
+    password: r8jz7YPwYtqYGRhY
+    database: 0
+    timeout: 10000
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  logging:
+    level:
+      org:
+        springframework:
+          security:
+            web: DEBUG
+            oauth2:
+              client: DEBUG

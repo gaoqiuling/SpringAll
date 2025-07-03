@@ -33,8 +33,8 @@ public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerA
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    //    客户端身份验证：决定客户端是否有资格请求令牌。
-//    存储方式：可以通过内存（inMemory()）、JDBC（jdbc()）或自定义实现。
+    //客户端身份验证：决定客户端是否有资格请求令牌。
+    //存储方式：可以通过内存（inMemory()）、JDBC（jdbc()）或自定义实现。
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
