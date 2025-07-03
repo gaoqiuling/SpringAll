@@ -17,7 +17,6 @@ import java.util.Arrays;
 public class JWTokenConfig {
     @Bean
     public TokenStore jwtTokenStore() {
-        //todo 使用ruoyi的解决方案，用户信息放到redis上，token只存redis的key
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
 

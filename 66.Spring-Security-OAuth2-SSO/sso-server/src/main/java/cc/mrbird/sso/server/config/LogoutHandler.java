@@ -43,6 +43,6 @@ public class LogoutHandler implements LogoutSuccessHandler {
         // 清除安全上下文
         SecurityContextHolder.clearContext();
         // 重定向到登录页面
-        response.sendRedirect("/login?logout");
+        response.sendRedirect("/server/login?logout");
     }
 } 
