@@ -1,5 +1,6 @@
 package cc.mrbird.sso.client.config;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
 
     public static String renderString(HttpServletResponse response, String string) {
         try {
-            response.setStatus(200);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             response.getWriter().print(string);
@@ -33,4 +34,3 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, S
         return null;
     }
 }
-

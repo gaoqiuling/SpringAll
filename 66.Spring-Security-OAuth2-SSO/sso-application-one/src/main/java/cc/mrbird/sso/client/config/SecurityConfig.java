@@ -60,24 +60,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    // 配置 Web 页面访问（高优先级）
-//    @Bean
-//    @Order(1)
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .requestMatchers(requestMatchers -> requestMatchers
-//                        .antMatchers("/**") // 简单处理所有路径
-//                )
-//                .csrf().disable()
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .antMatchers("/", "/index.html", "/public/**", "/error", "/login", "/user/**").permitAll()
-//                        .antMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .oauth2Login();
-//        return http.build();
-//    }
-
     // 配置 API 资源服务器（低优先级）
     @Bean
     @Order(2)

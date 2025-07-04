@@ -1,8 +1,8 @@
 package cc.mrbird.sso.client.controller;
 
 import org.springframework.http.*;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
-import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +18,11 @@ public class LoginController {
     public String handleCallback(
             @RequestParam("code") String code,
             @RequestParam(value = "state", required = false) String state) {
-        DefaultOAuth2AccessToken token = exchangeCodeForToken(code);
-        return token.getValue();
+        OAuth2AccessTokenResponse token = exchangeCodeForToken(code);
+        return token.getAccessToken().getTokenValue();
     }
 
-    private DefaultOAuth2AccessToken exchangeCodeForToken(String code) {
+    private OAuth2AccessTokenResponse exchangeCodeForToken(String code) {
         // 1. 创建请求头
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -52,20 +52,19 @@ public class LoginController {
                 Map.class
         );
 
-        // 6. 解析响应
-        if (response.getStatusCode() == HttpStatus.OK) {
-            Map<String, Object> tokenMap = response.getBody();
-            DefaultOAuth2AccessToken accessToken = new DefaultOAuth2AccessToken((String) tokenMap.get("access_token"));
-
-            // 设置令牌属性
-            accessToken.setTokenType((String) tokenMap.get("token_type"));
-            accessToken.setExpiration(new Date(System.currentTimeMillis() + (Integer) tokenMap.get("expires_in") * 1000L));
-            accessToken.setRefreshToken(new DefaultOAuth2RefreshToken((String) tokenMap.get("refresh_token")));
-            accessToken.setScope(Collections.singleton((String) tokenMap.get("scope")));
-
-            return accessToken;
-        } else {
+        if (response.getStatusCode() != HttpStatus.OK) {
             throw new RuntimeException("Token exchange failed: " + response.getStatusCode());
         }
+        Map<String, Object> tokenMap = response.getBody();
+        // 1. 构造 Token 响应对象
+        OAuth2AccessTokenResponse tokenResponse =
+                OAuth2AccessTokenResponse.withToken((String) tokenMap.get("access_token"))
+                        .tokenType(OAuth2AccessToken.TokenType.BEARER) // 默认类型
+                        .expiresIn((Integer) tokenMap.get("expires_in")) // 过期时间
+                        .refreshToken((String) tokenMap.get("refresh_token")) // 刷新令牌
+                        .scopes(Collections.singleton((String) tokenMap.get("scope"))) // 权限范围
+                        .build();
+
+        return tokenResponse;
     }
 }
