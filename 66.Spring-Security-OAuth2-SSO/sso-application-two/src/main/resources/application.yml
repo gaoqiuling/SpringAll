@@ -1,14 +1,48 @@
-security:
-  oauth2:
-    client:
-      client-id: app-b
-      client-secret: app-b-1234
-      user-authorization-uri: http://127.0.0.1:8080/server/oauth/authorize
-      access-token-uri: http://127.0.0.1:8080/server/oauth/token
-    resource:
-      jwt:
-        key-uri: http://127.0.0.1:8080/server/oauth/token_key
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          app-a:
+            client-id: app-b
+            client-secret: app-b-1234
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:9091/app2/login  # 占位符或完整URL
+            scope: all
+        provider:
+          app-a:
+            authorization-uri: http://127.0.0.1:8080/server/oauth/authorize
+            token-uri: http://127.0.0.1:8080/server/oauth/token
+            # 可选：用户信息端点
+            user-info-uri: http://127.0.0.1:8080/server/userinfo
+
+  redis:
+    host: 39.107.45.229
+    port: 6379
+    password: r8jz7YPwYtqYGRhY
+    database: 0
+    timeout: 10000
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+#
+#security:
+#  oauth2:
+#    resource:
+#      jwt:
+#        key-uri: http://127.0.0.1:8080/server/oauth/token_key
 server:
   port: 9091
   servlet:
     context-path: /app2
+
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          web:
+            FilterChainProxy: DEBUG
