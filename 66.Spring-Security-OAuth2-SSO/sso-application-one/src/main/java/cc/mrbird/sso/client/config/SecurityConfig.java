@@ -53,8 +53,9 @@ public class SecurityConfig {
                 )
                 .csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
+                        . antMatchers("/public/**", "/error", "/login", "/oauth2/**", "/login/oauth2/**").permitAll()
                         // 这些路径全部允许
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .oauth2Login();
         return http.build();
