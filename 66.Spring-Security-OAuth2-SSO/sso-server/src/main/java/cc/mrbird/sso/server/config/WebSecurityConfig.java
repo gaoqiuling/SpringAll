@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private CorsFilter corsFilter;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -43,8 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // CSRF禁用
                 .csrf().disable()
                 .formLogin()
-                //.loginPage("/login")  // 自定义登录页面
-               // .loginProcessingUrl("/login")  // 登录处理URL
+                .loginPage("/login")  // 自定义登录页面
                 .and()
                 .authorizeRequests()
                 .antMatchers(
@@ -62,8 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/**/logout", "GET"))
                 .logoutSuccessHandler(logoutHandler)
-                .deleteCookies("JSESSIONID");
-//                .clearAuthentication(true);
+                .deleteCookies("JSESSIONID")
+                .clearAuthentication(true);
         // 添加CORS过滤器
         http.addFilterBefore(corsFilter, LogoutFilter.class);
     }
